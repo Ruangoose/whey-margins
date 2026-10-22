@@ -4,3 +4,5 @@ __pycache__/
 data/raw/
 *.pyc
 .env
+# The share charts' series, from Alpaca prices: charted on the web page with Alpaca's consent, not published as data
+output/site/shares.json

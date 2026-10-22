@@ -4,8 +4,10 @@ When US dairy protein prices rose sharply in 2025 and 2026, how hard and how fas
 margins of the brands that buy them? A study on public data: USDA dairy prices, production and stocks, and SEC
 filings for BellRing Brands and The Simply Good Foods Company.
 
-A few summary statistics on the two shares come from Alpaca's market data, which is for personal use only, so no
-share price or return series is published here.
+The share figures come from Alpaca's market data, which is for personal use only. Alpaca agreed on 22 October
+2026 to the web page charting them (each share indexed against consumer staples, EV/EBITDA by quarter, moves on
+results days), with no raw prices and no data to download. So no share price or return series is published
+here: the charts' series are written to `output/site/shares.json`, which git ignores.
 
 The write-up: https://ruangoosen.co.za/projects/protein-squeeze/
 
@@ -38,8 +40,10 @@ incompletely without an error.
   Year-on-year changes take out seasonality.
 - **The shares:** the fall from the peak, EV/EBITDA now against its 2023–24 average, and moves on results days
   over their first two sessions: the typical move, and the average move against a US consumer staples ETF
-  (XLP), split by whether the release mentions protein or ingredient costs. Only these summary figures are
-  written.
+  (XLP), split by whether the release mentions protein or ingredient costs. These summary figures go to
+  `results.json`. For the web page's charts, `output/site/shares.json` (git-ignored) also gets each share and
+  XLP indexed to 100 on 3 January 2023 (the last close of each week), EV/EBITDA at each quarter end, and the
+  move against XLP on each results day.
 
 The study describes the past. It fits nothing forward and makes no recommendation.
 
@@ -50,7 +54,8 @@ The study describes the past. It fits nothing forward and makes no recommendatio
 - `buyer-margins-quarterly.csv`: revenue, cost of goods, gross profit and margin, EPS and net income by quarter.
 - `margin-lag-profiles.csv`: the lag regressions, every company, price and lag.
 - `results.json`: every headline figure, the share statistics included.
-- `site/`: the JSON the web page is built from.
+- `site/`: the JSON the web page is built from. `shares.json` is written there too but kept out of git
+  (Alpaca's prices).
 - `charts/`: rough PNG charts for review.
 
 See [SOURCES.md](SOURCES.md) for every source, its terms and its limits. Raw downloads stay in `data/raw/`

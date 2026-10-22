@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from protein import analysis, edgar, usda
+from protein import analysis, edgar, prices, usda
 
 
 def _durations(rows):
@@ -87,6 +87,14 @@ def test_lag_fit_matches_the_lag_profile_and_stays_in_the_past():
 def test_contiguous_drops_early_gaps():
     s = pd.Series(1.0, index=pd.DatetimeIndex(["2017-02-25", "2017-11-25", "2018-02-24", "2018-05-26"]))
     assert analysis.contiguous(s).index[0] == pd.Timestamp("2017-11-25")
+
+
+def test_weekly_index_keeps_one_close_a_week():
+    days = pd.bdate_range("2023-01-03", "2023-01-20").drop(pd.Timestamp("2023-01-13"))  # a Friday holiday
+    px = pd.DataFrame({"A": np.arange(1.0, len(days) + 1) * 10}, index=days)
+    w = prices.weekly_index(px, "2023-01-03")
+    assert list(w.index.strftime("%m-%d")) == ["01-03", "01-06", "01-12", "01-20"]
+    assert list(w["A"]) == pytest.approx([100, 400, 800, 1300])
 
 
 def test_reaction_day_after_close_is_next_session():

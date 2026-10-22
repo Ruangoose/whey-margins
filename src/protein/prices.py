@@ -1,10 +1,12 @@
-"""Daily share prices from Alpaca's market data API, for a few summary statistics.
+"""Daily share prices from Alpaca's market data API, for a few summary statistics and the web page's charts.
 
 Needs a free Alpaca key pair in APCA_API_KEY_ID and APCA_API_SECRET_KEY (Windows:
 set with `setx`; they are also read from the user environment here). The free
 plan gives consolidated (SIP) daily bars since 2016 when the request ends at least
-15 minutes ago. Alpaca's terms allow personal use only, so raw prices stay in
-data/raw/ (git-ignored), and no price or return series is written to output/.
+15 minutes ago. Alpaca's terms allow personal use only. Alpaca agreed on 22 October
+2026 to the web page charting them, with no raw prices and no data to download, so
+raw prices stay in data/raw/ and the charts' series in output/site/shares.json, both
+git-ignored.
 """
 from __future__ import annotations
 
@@ -62,3 +64,14 @@ def daily(ticker: str, start: str, end: str, refresh: bool = False) -> pd.DataFr
 
 def closes(tickers: list[str], start: str, end: str, refresh: bool = False) -> pd.DataFrame:
     return pd.DataFrame({t: daily(t, start, end, refresh)["close"] for t in tickers})
+
+
+def weekly_index(closes: pd.DataFrame, start: str) -> pd.DataFrame:
+    """Each column indexed to 100 at the first session from `start`, then at the last close of each week.
+
+    One point a week is what the web page's share chart draws, so no daily price leaves the study.
+    """
+    span = closes.loc[start:].dropna()
+    weekly = span.groupby(span.index.to_period("W-FRI")).tail(1)
+    out = pd.concat([span.iloc[[0]], weekly[weekly.index > span.index[0]]])
+    return out / span.iloc[0] * 100

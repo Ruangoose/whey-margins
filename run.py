@@ -5,7 +5,9 @@
 
 Share prices end on END; filings and USDA data are as published when downloaded. The study describes the
 past: it fits nothing forward and makes no recommendation. Share prices (Alpaca, personal use only) feed a
-few summary statistics; no price or return series is written to output/.
+few summary statistics, and the series behind the web page's three share charts, which Alpaca agreed to on
+22 October 2026. Those series go only to output/site/shares.json, which git ignores; no price or return
+series is written anywhere else.
 """
 from __future__ import annotations
 
@@ -24,6 +26,7 @@ ROOT = Path(__file__).parent
 OUT = ROOT / "output"
 SITE = OUT / "site"
 END = "2026-10-20"
+INDEX_FROM = "2023-01-03"  # the first session of 2023: the web page's share chart starts here, at 100
 BUYERS = ["BRBR", "SMPL"]
 MAX_LAG = 6
 
@@ -132,10 +135,13 @@ def main(refresh: bool = False) -> None:
                              "low_since_2023": [day(recent.idxmin()), num(recent.min())]}
     results["margins"] = margin_summary
 
-    # 4. The shares: summary statistics only. Alpaca's terms allow personal use, so no price or return
-    # series, and no per-day or per-quarter table, leaves this function.
+    # 4. The shares. Alpaca's terms allow personal use. On 22 October 2026 Alpaca agreed to the web page
+    # charting its prices (each share indexed against consumer staples, EV/EBITDA by quarter, moves on results
+    # days), credited "Source: Alpaca", with no raw prices, no tables of daily prices and no data to download.
+    # So results.json gets summary statistics only, and the three charts' series (`charted`, and the weekly
+    # index in step 5) go only to output/site/shares.json, which git ignores.
     px = prices.closes(BUYERS + ["XLP"], "2016-01-01", END, refresh)
-    shares = {}
+    shares, charted = {}, {}
     for t in BUYERS:
         s = px[t].dropna()
         rel = s / px["XLP"].reindex(s.index)
@@ -172,12 +178,18 @@ def main(refresh: bool = False) -> None:
                 "other": {"n": int((~protein).sum()), "mean_vs_staples_pct": num(events.loc[~protein, "car"].mean() * 100, 1)},
             },
         }
+        chart_ev = ev.loc["2022-01-01":]  # from 2022, when BellRing's starts, so both cover the same span
+        charted[t] = {
+            "ev_ebitda": {"quarters": [day(q) for q in chart_ev.index], "values": [num(v, 1) for v in chart_ev]},
+            "results_days": [{"date": day(e.reaction_day), "vs_staples_pct": num(e.car * 100, 1),
+                              "protein_cost": bool(e.n_hits > 0)} for e in events.itertuples()],
+        }
     results["shares"] = shares
 
     write_json(OUT / "results.json", results)
 
     # 5. What the web page (ruangoosen.co.za/projects/protein-squeeze/) is built from: the figures above, the
-    # price and margin series, and the lag profiles.
+    # price and margin series, the lag profiles, and the share charts' series (shares.json, git-ignored).
     lag_table = {t: {name: [{"lag": int(r.lag), "n": int(r.n), "r2": num(r.r2, 3), "corr": num(r.corr, 3),
                              "points_per_10pct": num(r.beta_per_10pct, 3), "t": num(r.t, 2)}
                             for r in profiles[(t, name)].itertuples()] for name in inputs} for t in BUYERS}
@@ -193,6 +205,14 @@ def main(refresh: bool = False) -> None:
         **{t: {"quarters": [day(q) for q in margins[t].loc["2019-01-01":].index],
                "gross_margin": [num(v) for v in margins[t].loc["2019-01-01":, "gross_margin"]]} for t in BUYERS},
         "fits": fits,
+    })
+    weekly = prices.weekly_index(px[BUYERS + ["XLP"]], INDEX_FROM)
+    write_json(SITE / "shares.json", {
+        "source": "Alpaca",
+        "terms": "Charted on the web page with Alpaca's consent of 22 October 2026. Not for republication.",
+        "end": END,
+        "indexed": {"dates": [day(d) for d in weekly.index], **{c: [num(v, 1) for v in weekly[c]] for c in weekly}},
+        **{k: {t: charted[t][k] for t in BUYERS} for k in ("ev_ebitda", "results_days")},
     })
     # Unix line endings everywhere, so a rerun on Windows shows no changes in git.
     for p in OUT.glob("*.csv"):

@@ -1,6 +1,6 @@
 # Sources and terms
 
-Checked 21 and 22 October 2026.
+Checked 21 and 22 October 2026. Alpaca's consent to the share charts added 22 October 2026.
 
 | Source | What | Route | Terms |
 |---|---|---|---|
@@ -8,7 +8,7 @@ Checked 21 and 22 October 2026.
 | USDA AMS, Dairy Market News | WPC 34% "mostly" price, Central and West US: monthly table for 2022 on (`dymawpc.pdf`); weekly reports November 2018 to September 2025 from the ESMIS archive, averaged by month for earlier years. WPC 80% and isolate quotes in words, May to October 2026 (`data/dmn-wpc80-isolate-2026.csv`) | ams.usda.gov, esmis.nal.usda.gov, no key | Public domain (USDA policy); credit "U.S. Department of Agriculture" |
 | USDA ERS | Supply and utilization of dairy product categories: WPC and dry whey production, stocks, exports, monthly from 2011 | ers.usda.gov CSV, no key | Public domain (USDA policy) |
 | SEC EDGAR | Quarterly sales, cost of goods, gross profit, operating income, D&A, impairments, EPS, debt, cash, shares (XBRL company facts); results releases (8-K item 2.02, and item 9.01 alone when the exhibit announces results) | `data.sec.gov` and `sec.gov/Archives`, no key; a User-Agent naming a contact is required | US government work, public domain; fair-access limit of 10 requests a second |
-| Alpaca market data | Daily bars since 2016 for BRBR, SMPL and XLP (consolidated SIP feed, adjusted for splits, dividends and spin-offs) | `data.alpaca.markets`, free key pair | Personal, non-commercial use; nothing may be republished without Alpaca's written consent. Used only for summary statistics: raw prices, and any series built from them, are never committed or published |
+| Alpaca market data | Daily bars since 2016 for BRBR, SMPL and XLP (consolidated SIP feed, adjusted for splits, dividends and spin-offs) | `data.alpaca.markets`, free key pair | Personal, non-commercial use; nothing may be republished without Alpaca's written consent. Alpaca agreed by email on 22 October 2026 to the web page showing charts derived from daily closes (each share indexed to 100 against XLP, EV/EBITDA by quarter, moves on results days), credited "Source: Alpaca", with no raw prices, no tables of daily prices, no live or delayed quotes and no data to download. So raw prices, and the series behind those charts (`output/site/shares.json`), are never committed or published as data; the repo's output holds summary statistics only |
 
 Not used: CME whey futures (licensed data), and Yahoo, S&P, MSCI, ICE, AQR and JSE data.
 
