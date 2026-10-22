@@ -16,6 +16,7 @@ from __future__ import annotations
 import io
 import json
 import re
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -75,8 +76,27 @@ ESMIS = "https://esmis.nal.usda.gov"
 ESMIS_WPC = ESMIS + "/publication/whey-protein-concentrate-central-and-western-us"
 
 
+# ESMIS lists only its latest weekly reports (about 350), so the oldest drop off the listing as new ones
+# arrive: the two from 29 November and 6 December 2018 went within days of 21 October 2026. The files
+# themselves stay online, so every report path the listing gave on 21 October 2026 is kept here and read
+# as well as the listing.
+KNOWN_REPORTS = Path(__file__).resolve().parents[2] / "data" / "esmis-wpc-reports.txt"
+
+
 def _esmis_files(refresh: bool = False, max_pages: int = 60) -> list[str]:
-    """Every weekly WPC report file on ESMIS (text where there is one, otherwise PDF)."""
+    """Every weekly WPC report file on ESMIS (text where there is one, otherwise PDF): the archive's listing,
+    then any known report that has dropped off it."""
+    files = _esmis_listing(refresh, max_pages)
+    folders = {f.rsplit("/", 1)[0] for f in files}
+    for f in KNOWN_REPORTS.read_text().split():
+        if f.rsplit("/", 1)[0] not in folders:
+            files.append(f)
+            folders.add(f.rsplit("/", 1)[0])
+    return files
+
+
+def _esmis_listing(refresh: bool = False, max_pages: int = 60) -> list[str]:
+    """The report files the archive's listing pages link to."""
     files, seen_pages = [], set()
     for page in range(max_pages):
         body = get(ESMIS_WPC, "usda-esmis", suffix=f"-p{page}.html", headers=UA,

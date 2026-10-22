@@ -1,4 +1,9 @@
-# Hand-entered data
+# Data kept in the repo
+
+`esmis-wpc-reports.txt`: the path of every weekly WPC report that USDA's ESMIS archive listed on 21 October
+2026 (352 files, November 2018 to October 2026). The archive lists only its latest reports, so the oldest drop
+off the listing as new ones arrive, but the files stay online. `src/protein/usda.py` reads these as well as the
+live listing, so a fresh download still starts in November 2018.
 
 `dmn-wpc80-isolate-2026.csv`: USDA Dairy Market News quotes WPC 80% and whey protein isolate only in words, in
 the text of its weekly WPC report (report 1053, Central and West US). Each row is one report (its Thursday release

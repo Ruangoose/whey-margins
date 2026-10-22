@@ -23,6 +23,8 @@ Downloading needs two things:
   script to name a contact.
 
 Share prices end on 20 October 2026 (`END` in `run.py`); USDA and SEC data are as published when downloaded.
+The committed output used downloads of 21 October 2026. A fresh download on 22 October gave the same results
+apart from USDA's newer week.
 On Windows, keep the clone at a short path: with long paths switched off, pip can install statsmodels
 incompletely without an error.
 

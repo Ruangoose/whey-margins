@@ -41,6 +41,15 @@ def test_wpc_report_parsing_text_and_pdf_styles():
     assert usda.parse_wpc_report(span)["week_end"] == pd.Timestamp("2020-04-03")
 
 
+def test_known_reports_fill_in_what_the_listing_dropped(monkeypatch, tmp_path):
+    known = tmp_path / "known.txt"
+    known.write_text("/r/1/a.txt\n/r/2/a.txt\n")
+    monkeypatch.setattr(usda, "KNOWN_REPORTS", known)
+    monkeypatch.setattr(usda, "_esmis_listing", lambda refresh, max_pages: ["/r/2/a.pdf", "/r/3/a.txt"])
+    # Folder 2 is still listed (as a PDF), so only folder 1 is added back.
+    assert usda._esmis_files() == ["/r/2/a.pdf", "/r/3/a.txt", "/r/1/a.txt"]
+
+
 def test_quarter_months_for_13_week_quarters():
     monthly = pd.Series(range(1, 13), index=pd.date_range("2025-01-01", periods=12, freq="MS"), dtype=float)
     # A quarter ending 1 March covers December to February: only Jan and Feb are in the data
