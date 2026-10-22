@@ -1,0 +1,242 @@
+{
+ "end": "2026-10-20",
+ "prices": {
+  "wpc34_first_month": "2018-11-01",
+  "wpc34_latest_month": [
+   "2026-09-01",
+   2.4602
+  ],
+  "wpc34_max_before_2026": [
+   "2025-05-01",
+   1.8475
+  ],
+  "ndm_first_week": "2012-03-03",
+  "ndm_latest_week": [
+   "2026-10-10",
+   1.9692
+  ],
+  "ndm_max": [
+   "2026-05-23",
+   2.1256
+  ],
+  "ndm_2026_low": [
+   "2026-08-01",
+   1.5175
+  ],
+  "dry_whey_latest_week": [
+   "2026-10-10",
+   0.7198
+  ],
+  "dry_whey_max": [
+   "2022-03-05",
+   0.7989
+  ],
+  "wpc34_weekly_vs_table_mean_abs_diff": 0.005,
+  "quotes": {
+   "first": "2026-05-28",
+   "last": "2026-10-15",
+   "wpc80_first": [
+    13.0,
+    13.0
+   ],
+   "wpc80_last": [
+    9.0,
+    10.0
+   ],
+   "wpc80_top": 13.25,
+   "isolate_last": [
+    14.0,
+    15.0
+   ]
+  }
+ },
+ "supply": {
+  "WPC ending stocks, human use": {
+   "latest": [
+    "2026-08-01",
+    49.5
+   ],
+   "year_earlier": 49.6
+  },
+  "WPC exports, 12-month total": {
+   "latest": [
+    "2026-08-01",
+    243.9
+   ],
+   "year_earlier": 294.3
+  },
+  "Dry whey ending stocks, human use": {
+   "latest": [
+    "2026-08-01",
+    60.3
+   ],
+   "year_earlier": 49.4
+  }
+ },
+ "lags": [
+  {
+   "ticker": "BRBR",
+   "input": "WPC 34%",
+   "lag": 3,
+   "n": 24,
+   "beta_per_10pct": -0.58,
+   "t": -2.324,
+   "r2": 0.312,
+   "corr": -0.558
+  },
+  {
+   "ticker": "BRBR",
+   "input": "nonfat dry milk",
+   "lag": 4,
+   "n": 23,
+   "beta_per_10pct": -0.476,
+   "t": -0.877,
+   "r2": 0.083,
+   "corr": -0.288
+  },
+  {
+   "ticker": "BRBR",
+   "input": "dry whey",
+   "lag": 4,
+   "n": 23,
+   "beta_per_10pct": -0.433,
+   "t": -1.168,
+   "r2": 0.163,
+   "corr": -0.404
+  },
+  {
+   "ticker": "SMPL",
+   "input": "WPC 34%",
+   "lag": 2,
+   "n": 24,
+   "beta_per_10pct": -0.594,
+   "t": -6.535,
+   "r2": 0.716,
+   "corr": -0.846
+  },
+  {
+   "ticker": "SMPL",
+   "input": "nonfat dry milk",
+   "lag": 3,
+   "n": 28,
+   "beta_per_10pct": -0.707,
+   "t": -6.227,
+   "r2": 0.412,
+   "corr": -0.642
+  },
+  {
+   "ticker": "SMPL",
+   "input": "dry whey",
+   "lag": 4,
+   "n": 27,
+   "beta_per_10pct": -0.58,
+   "t": -7.211,
+   "r2": 0.662,
+   "corr": -0.814
+  }
+ ],
+ "best_fit": {
+  "BRBR": {
+   "input": "WPC 34%",
+   "lag": 3,
+   "n": 24,
+   "r2": 0.312,
+   "t": -2.32,
+   "points_per_10pct": -0.58
+  },
+  "SMPL": {
+   "input": "WPC 34%",
+   "lag": 2,
+   "n": 24,
+   "r2": 0.716,
+   "t": -6.53,
+   "points_per_10pct": -0.594
+  }
+ },
+ "margins": {
+  "BRBR": {
+   "last": [
+    "2026-06-30",
+    0.2863
+   ],
+   "year_earlier": [
+    "2025-06-30",
+    0.3536
+   ],
+   "high_since_2023": [
+    "2024-12-31",
+    0.3746
+   ],
+   "low_since_2023": [
+    "2026-03-31",
+    0.2701
+   ]
+  },
+  "SMPL": {
+   "last": [
+    "2026-05-30",
+    0.3252
+   ],
+   "year_earlier": [
+    "2025-05-31",
+    0.3636
+   ],
+   "high_since_2023": [
+    "2024-05-25",
+    0.3992
+   ],
+   "low_since_2023": [
+    "2026-02-28",
+    0.316
+   ]
+  }
+ },
+ "shares": {
+  "BRBR": {
+   "peak": "2025-01-30",
+   "from_peak_pct": -88.0,
+   "vs_staples_from_peak_pct": -89.6,
+   "ev_ebitda_now": 6.6,
+   "ev_ebitda_mean_2023_24": 21.3,
+   "ev_ebitda_quarters_2023_24": 8,
+   "results_days": {
+    "n": 24,
+    "first": "2020-11-20",
+    "last": "2026-08-04",
+    "mean_move_pct": -2.4,
+    "rms_move_pct": 14.2,
+    "protein_cost": {
+     "n": 13,
+     "mean_vs_staples_pct": -5.2
+    },
+    "other": {
+     "n": 11,
+     "mean_vs_staples_pct": 0.3
+    }
+   }
+  },
+  "SMPL": {
+   "peak": "2022-04-19",
+   "from_peak_pct": -75.3,
+   "vs_staples_from_peak_pct": -80.2,
+   "ev_ebitda_now": 5.8,
+   "ev_ebitda_mean_2023_24": 17.3,
+   "ev_ebitda_quarters_2023_24": 8,
+   "results_days": {
+    "n": 38,
+    "first": "2017-11-08",
+    "last": "2026-07-09",
+    "mean_move_pct": -0.6,
+    "rms_move_pct": 9.2,
+    "protein_cost": {
+     "n": 14,
+     "mean_vs_staples_pct": 1.5
+    },
+    "other": {
+     "n": 24,
+     "mean_vs_staples_pct": -2.6
+    }
+   }
+  }
+ }
+}
